@@ -1,0 +1,84 @@
+body{
+	margin: 0;
+}
+
+.tab_on_left{
+	width: 26vw;
+	height: 100vh;
+	background-color: dimgrey;
+	float: left;
+	position: fixed;
+	z-index: 999;
+}
+
+.titie{
+	margin-top: 3em;
+	margin-bottom: 3em;
+	color: white;
+	font-size: 2em;
+	font-family: "Lucida Handwriting";
+	text-align: center;
+}
+
+.tablist, .tablist ul{
+	position: absolute;
+	list-style-type: none;
+	left: 7vb;
+}
+.tablist li{padding: 1em;}
+.tablist a{
+	color: white;
+	font-size: 1.5em;
+	text-decoration: none;
+	font-family: "汉仪中圆简";
+}
+
+.tabfooter{
+	position: absolute;
+	bottom: 0;
+	left: 5vb;
+	padding: 2em;
+	color: white;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.tabfooter a{
+	text-decoration: none;
+	color: aqua;
+}
+.tabfooter a:hover{text-decoration: underline;}
+
+.on_right{
+	float: right;
+	width: 74vw;
+	position: relative;
+}
+
+
+.right_body{
+	background-image: url("../img/47ca94ba7944caa7be82129ca72bb1725be206a7.jpg");
+	background-size: 135%;
+	background-position: 0em 0em;
+	background-repeat: no-repeat;
+	width: 74vw;
+	height: 100vh;
+	z-index: 0;
+	position: absolute;
+	overflow-y: scroll;
+}
+
+.articles{
+	background-color: rgba(255, 255, 255, 0.5);
+	border-radius: 10px;
+	margin: 2em auto;
+	padding: 1em;
+	width: 130vb;
+	font-size: 24px;
+}
+
+.articles h1{font-style: italic;}
+.articles h3{
+	color: dimgrey; 
+	line-height: 0.5em;
+	font-family: "Candara";
+}
