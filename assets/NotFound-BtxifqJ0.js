@@ -1,0 +1,1 @@
+import{c as e,f as t,r as n,s as r}from"./index-CLgPfOvU.js";var i={},a={class:`not-found`};function o(n,i){return t(),e(`div`,a,[...i[0]||=[r(`h1`,null,`404 - Not Found`,-1),r(`p`,null,`抱歉，您所访问的页面不存在。`,-1),r(`p`,null,`Sorry, the page you are looking for does not exist.`,-1)]])}var s=n(i,[[`render`,o]]);export{s as default};
