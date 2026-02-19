@@ -9,8 +9,9 @@
             <div class="links">
                 <h4>NAVIGATE</h4>
                 <ul>
-                    <li><a href="https://mloluyu.github.io/" target="_blank" rel="noopener">ABOUT / 关于</a></li>
-                    <li><a href="#">FRIENDS / 友達</a></li>
+                    <li><RouterLink to="/">HOME / 首页</RouterLink></li>
+                    <li><RouterLink to="/about">ABOUT / 关于</RouterLink></li>
+                    <li><RouterLink to="/friends">FRIENDS / 友達</RouterLink></li>
                 </ul>
             </div>
             <div class="connect">
@@ -75,7 +76,7 @@ h4 {
     flex-direction: column;
 
     & .footer-container {
-        border-bottom: #A6A6A6 1px solid;
+        /* border-bottom: #A6A6A6 1px solid; */
         margin-top: 32px;
         min-height: 166px;
         max-width: 1215px;

@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: center;
   color-scheme: light;
-  /*background-color: #242424;*/
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -53,7 +52,7 @@ button:focus-visible {
 #app {
   box-sizing: border-box;
   max-width: 1280px;
-  min-height: 1080px;
+  /* min-height: 1080px; */
   width: 100vw;
   margin: 0 auto;
   padding: 2rem;

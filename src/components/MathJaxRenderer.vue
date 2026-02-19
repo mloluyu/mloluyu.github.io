@@ -1,6 +1,6 @@
 <!-- src/components/MathJaxRenderer.vue -->
 <template>
-  <div ref="container" class="mathjax-content"></div>
+  <div ref="container" class="mathjax-content" v-html="content"></div>
 </template>
 
 <script setup>

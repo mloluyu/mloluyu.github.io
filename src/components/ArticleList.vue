@@ -10,7 +10,9 @@
         </li> -->
         <li v-for="post in posts" :key="post.id" class="article-item">
             <span class="post-date">{{ formatDate(post.created_time) }}</span>
-            <RouterLink class="post-title" :to="'article/' + post.slug">{{ post.title }}</RouterLink>
+            <RouterLink class="post-title" :to="{name: 'Article',params: { slug: post.slug }}">
+                {{ post.title }}
+            </RouterLink>
             <p class="post-excerpt">{{ post.excerpt }}</p>
             <div class="tags">
                 <span v-for="tag in post.tags" :key="tag.id" class="tag">{{ tag.name }}</span>

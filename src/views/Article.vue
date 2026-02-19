@@ -1,33 +1,42 @@
 <!-- pages/BlogPost.vue -->
 <template>
-  <article>
-    <h1>{{ title }}</h1>
+  <article class="article">
+    <h1>{{ post.title }}</h1>
     <MathJaxRenderer :content="renderedHtml" />
   </article>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted } from 'vue'
+<script setup>
+import { ref, watch, onMounted } from 'vue'
 import { renderMarkdown } from '../util/markdown.js' // 你自己实现的 markdown 渲染函数
+import { useRoute } from 'vue-router'
 import MathJaxRenderer from '../components/MathJaxRenderer.vue'
-// 假设你通过 fetch 或 frontmatter 获取 markdown 内容
-//import { compileMarkdown } from '@/utils/markdown' // 你自己实现的 markdown 渲染函数
 
-const title = ref('')
+const route = useRoute()
+const post = ref(null)
 const renderedHtml = ref('')
 
-onMounted(async () => {
-  const mdContent = `# Hello Math
+// 动态提取数据的函数
+const updateData = () => {
+    if (route.meta && route.meta.postData) {
+        post.value = route.meta.postData
+        renderedHtml.value = renderMarkdown(post.value.body)
+        // console.log("数据已加载:", post.value.body) // 调试用
+    }
+    // console.log("渲染后的HTML:", renderedHtml.value)
+}
 
-行内公式：$a^2 + b^2 = c^2$
+// 1. 初始化尝试
+onMounted(updateData)
 
-块级公式：
-
-$$
-\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}
-$$
-`.trim()
-  renderedHtml.value = renderMarkdown(mdContent) // 使用自定义的 markdown 渲染函数
-  title.value = 'Hello Math'
-})
+// 2. 监听路由变化（防止由于组件复用导致数据不更新）
+watch(() => route.meta.postData, updateData, { immediate: true })
 </script>
+
+<style scoped>
+.article {
+    & h1 {
+        font-size: 36px;
+    }
+}
+</style>
