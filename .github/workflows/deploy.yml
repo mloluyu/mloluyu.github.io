@@ -1,0 +1,23 @@
+name: Deploy to Main Branch
+
+on:
+  push:
+    branches: [ gh-pages ] # 修改这里：监听源码所在的分支
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install and Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: main # 修改这里：打包后推送到 main 分支
