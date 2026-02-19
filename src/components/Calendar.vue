@@ -9,14 +9,16 @@
                 今日<br>运势
             </div>
             <div class="fortune_depart"></div>
-            <div class="fortune_value">{{ fortuneValue }}</div>
+            <div v-if="fortuneValue == ''" class="fortune_praying">少女祈祷中...</div>
+            <div v-else :class="['fortune_value', isFortune ? 'fortune' : 'unfortune']">{{ fortuneValue }}</div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import lunisolar from "lunisolar";
+import apiClient from "../api";
 const dateForView = lunisolar(new Date(), { changeAgeTerm: null });
 const months = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
 const lunarMonths = ['正月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '冬月', '腊月'];
@@ -27,7 +29,25 @@ const year = ref(dateForView.year);
 const lunartime = ref(`${dateForView.format('cY')}年${lunarMonths[dateForView.lunar.month - 1]}${dateForView.lunar.getDayName()}`);
 
 const fortunes = ['大 吉', '中 吉', '小 吉', '末 吉', '末 凶', '凶', '大 凶'];
-const fortuneValue = ref(fortunes[Math.floor(Math.random() * fortunes.length)]);
+const fortuneValue = ref('');
+//ref(fortunes[Math.floor(Math.random() * fortunes.length)]);
+const isFortune = ref(true);
+onMounted(async () => {
+    try {
+        const res = await apiClient.get('/fortune/');
+        const index = res.data.index;
+        if (index < 4) {
+            isFortune.value = true;
+        } else {
+            isFortune.value = false;
+        }
+        if (fortunes[index]) {
+            fortuneValue.value = fortunes[index];
+        }
+    } catch (error) {
+        fortuneValue.value = fortunes[Math.floor(Math.random() * fortunes.length)];
+    }
+});
 </script>
 
 <style scoped>
@@ -131,6 +151,25 @@ const fortuneValue = ref(fortunes[Math.floor(Math.random() * fortunes.length)]);
             text-align: center;
             font-family: "Inria Sans", sans-serif;
         }
+
+        & .fortune_praying {
+            width: 198px;
+            height: 71px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: "LXGW WenKai Screen", sans-serif;
+            color: #5f5f5f;
+        }
     }
+}
+
+.fortune {
+    color: #cb0404;
+}
+.unfortune {
+    color: #024a11;
 }
 </style>

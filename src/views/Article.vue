@@ -1,9 +1,20 @@
 <!-- pages/BlogPost.vue -->
 <template>
-  <article class="article">
-    <h1>{{ post.title }}</h1>
-    <MathJaxRenderer :content="renderedHtml" />
-  </article>
+    <div class="article-container">
+        <aside class="left-pane">
+        </aside>
+        <article class="article">
+            <div class="article-area">
+                <div class="article-title">
+                    <h1 class="title">{{ post.title }}</h1>
+                    <p class="title-extra">AUTHOR: {{ post.author.username }}</p>
+                </div>
+                <div class="article-contents">
+                    <MathJaxRenderer :content="renderedHtml" />
+                </div>
+            </div>
+        </article>
+    </div>
 </template>
 
 <script setup>
@@ -34,9 +45,44 @@ watch(() => route.meta.postData, updateData, { immediate: true })
 </script>
 
 <style scoped>
+.article-container {
+    display: flex;
+    flex-direction: row;
+    min-height: calc(100vh - 2rem);
+
+    & .left-pane {
+        width: 304px;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
 .article {
+    text-align: left;
+    max-width: 880px;
+    min-height: 642px;
+    margin-left: 32px;
+    background-color: #F4FAFE;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4em;
+
     & h1 {
         font-size: 36px;
+    }
+
+    & .article-area {
+        margin: 2em;
+
+        & .title {
+            margin: 0;
+        }
+
+        & .title-extra {
+            color: #A6A6A6;
+            font-family: "Ubuntu Sans Mono";
+        }
     }
 }
 </style>

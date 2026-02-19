@@ -32,7 +32,6 @@ const months = [
 ];
 
 apiClient.get('/posts/').then(res => {
-    console.log('Posts:', res.data);
     posts.value = res.data;
 }).catch(error => {
     console.error('Error fetching posts:', error);
