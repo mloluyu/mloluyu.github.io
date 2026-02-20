@@ -8,6 +8,16 @@
 </template>
 
 <script setup>
+import { onMounted, onUnmounted } from 'vue';
+import { webtitle, title } from '../centre.js'
+
+onMounted(() => {
+    document.title = `Not Found | ${title}`; // 设置特定标题
+});
+
+onUnmounted(() => {
+    document.title = webtitle;
+});
 </script>
 
 <style scoped>

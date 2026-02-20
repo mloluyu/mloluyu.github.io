@@ -27,11 +27,12 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { renderMarkdown, getLatestToc } from '../util/markdown.js' // 你自己实现的 markdown 渲染函数
 import { useRoute } from 'vue-router'
 import MathJaxRenderer from '../components/MathJaxRenderer.vue'
 import ToUp from '../components/ToUp.vue'
+import { title, webtitle } from '../centre.js'
 
 const route = useRoute()
 const post = ref(null)
@@ -49,6 +50,7 @@ const updateData = () => {
         createdTime.value = formatDate(post.value.created_time)
         updatedTime.value = formatDate(post.value.updated_time)
         // console.log("数据已加载:", post.value.body) // 调试用
+        document.title = `${post.value.title} | ${title}` // 更新页面标题
     }
     // console.log("渲染后的HTML:", renderedHtml.value)
 }
@@ -90,6 +92,10 @@ const handleTocClick = (event) => {
         console.warn("未找到对应的标题 ID:", targetId);
     }
 };
+
+onUnmounted(() => {
+    document.title = webtitle // 恢复默认标题
+})
 </script>
 
 <style scoped>
