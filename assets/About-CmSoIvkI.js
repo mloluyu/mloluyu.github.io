@@ -1,1 +1,0 @@
-import{o as e}from"./index-0QbPmIGJ.js";var t={__name:`About`,setup(t){return e().push(`/404`),(e,t)=>null}};export{t as default};
