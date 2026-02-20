@@ -1,0 +1,1 @@
+var e=`Grimorie of Magartorid | mloluyu's blog`,t=`mloluyu's blog`;export{e as n,t};
