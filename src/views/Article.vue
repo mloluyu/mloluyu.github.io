@@ -23,6 +23,7 @@
             </div>
         </article>
     </div>
+    <ToUp />
 </template>
 
 <script setup>
@@ -30,6 +31,7 @@ import { ref, watch, onMounted } from 'vue'
 import { renderMarkdown, getLatestToc } from '../util/markdown.js' // 你自己实现的 markdown 渲染函数
 import { useRoute } from 'vue-router'
 import MathJaxRenderer from '../components/MathJaxRenderer.vue'
+import ToUp from '../components/ToUp.vue'
 
 const route = useRoute()
 const post = ref(null)
