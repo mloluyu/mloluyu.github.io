@@ -17,7 +17,7 @@
             <div class="connect">
                 <h4>CONNECT</h4>
                 <ul>
-                    <li><a href="https://twitter.com/mloluyu" target="_blank" rel="noopener">Twitter</a></li>
+                    <li><a href="https://github.com/mloluyu" target="_blank" rel="noopener">Github</a></li>
                 </ul>
             </div>
         </div>
