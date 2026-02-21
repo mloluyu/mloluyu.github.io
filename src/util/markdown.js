@@ -29,7 +29,11 @@ md.use(anchor, {
 md.use(toc, {
   containerClass: 'table-of-contents',
   // 关键：当 TOC 生成时，将其回调给变量
-  callback: (html) => { lastGeneratedToc = html }
+  slugify: (s) => String(s).trim().toLowerCase().replace(/\s+/g, '-'),
+  callback: (html) => { 
+      // 将 href 改为 javascript:void(0) 并把 ID 存入 data-target
+      lastGeneratedToc = html.replace(/href="#([^"]+)"/g, 'href="javascript:void(0)" data-target="$1"');
+  }
 })
 md.use(MathJax3)
 

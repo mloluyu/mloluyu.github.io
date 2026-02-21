@@ -19,7 +19,7 @@
                         </svg>
                     </button>
                 </div>
-                <div class="toc-wrapper" v-html="articleToc" @click="handleTocClick"></div>
+                <slot></slot>
             </div>
         </Transition>
 
@@ -46,7 +46,7 @@ const handleTocClick = (event) => {
 
 <style scoped>
 .toc-trigger-btn {
-    background: #f6fafd;
+    background-color: #ffffff;
     width: 44px;
     height: 44px;
     color: #797979;

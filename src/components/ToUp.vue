@@ -19,11 +19,11 @@ const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 <style scoped>
 .top-btn {
     position: fixed;
-    right: 3em;
-    bottom: 3em;
+    right: 2em;
+    bottom: 2em;
     width: 44px;
     height: 44px;
-    background: #f6fafd;
+    background-color: #ffffff;
     color: #797979;
     border: #797979 1px solid;
     border-radius: 40%; /* 圆形更现代 */

@@ -7,7 +7,9 @@
             </div>
             <div v-if="!isMobile" class="toc-head">On This Page</div>
             <div v-if="!isMobile" class="toc-wrapper" v-html="articleToc" @click="handleTocClick"></div>
-            <MobileToc v-if="isMobile" :article-toc="articleToc" :show-mobile-toc="showMobileToc" @toc-click="handleTocClick" />
+            <MobileToc v-if="isMobile" :article-toc="articleToc" :show-mobile-toc="showMobileToc" @toc-click="handleTocClick" >
+                <div class="toc-wrapper" v-html="articleToc" @click="handleTocClick"></div>
+            </MobileToc>
         </aside>
         <article class="article">
             <div class="article-area">
@@ -71,29 +73,30 @@ function formatDate(dateStr) {
 }
 
 const handleTocClick = (event) => {
-    if (e.target.tagName === 'A') {
-        showMobileToc.value = false
-    }
     const link = event.target.closest('a');
     if (!link) return;
+
+    // 2. 立即阻止默认跳转逻辑（防止 URL 变成 /#/无序列表）
     event.preventDefault();
 
-    const href = link.getAttribute('href');
-    if (!href) return;
+    // 3. 获取 ID (从 data-target 获取)
+    const targetId = link.getAttribute('data-target');
+    if (!targetId) return;
 
-    // 关键：只取最后一个 # 之后的部分作为 ID
-    const targetId = decodeURIComponent(href.split('#').pop());
-    
-    // 在整个 document 或 article 容器内寻找
-    const element = document.getElementById(targetId);
+    const decodedId = decodeURIComponent(targetId);
+    const element = document.getElementById(decodedId);
 
     if (element) {
-        element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
+        // 关闭移动端菜单
+        showMobileToc.value = false;
+
+        // 执行平滑滚动
+        // 考虑到可能有的顶部导航栏遮挡，可以加个 offset
+        const topOffset = element.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({
+            top: topOffset,
+            behavior: 'smooth'
         });
-    } else {
-        console.warn("未找到对应的标题 ID:", targetId);
     }
 };
 
@@ -213,7 +216,8 @@ onUnmounted(() => {
     min-height: 642px;
     margin-left: 42px;
     /* background-color: #F4FAFE; */
-    border: #A6A6A6 2px solid;
+    border: #dce4e9 2px solid;
+    /* background-color: #F4FAFE; */
     border-radius: 16px;
     display: flex;
     flex-direction: column;
@@ -245,6 +249,7 @@ onUnmounted(() => {
 /* 移除列表默认样式 */
 .toc-wrapper {
     border-left: #A6A6A6 2px solid;
+    font-family: 'LXGW WenKai Screen', monospace;
 }
 .toc-wrapper :deep(ul), 
 .toc-wrapper :deep(ol) {
@@ -298,6 +303,10 @@ onUnmounted(() => {
             max-width: none;
             margin-left: 0;
             margin-right: 0;
+
+            & .article-area {
+                margin: 20px;
+            }
         }
     }
 }
