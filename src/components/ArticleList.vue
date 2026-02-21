@@ -1,13 +1,5 @@
 <template>
     <div class="article-list-component">
-        <!-- <li class="article-item">
-            <span class="post-date">FEB 12, 2026</span>
-            <a class="post-title" href="#">从零开始，制作一只全自动红茶搅拌人偶</a>
-            <p class="post-excerpt">厌倦了自己搅拌红茶？只需要一个微型浮游法阵和简单的逻辑核心，你就能拥有一位勤劳的下午茶助手。</p>
-            <div class="tags">
-                <span class="tag">MAGIC</span>
-            </div>
-        </li> -->
         <li v-for="post in posts" :key="post.id" class="article-item">
             <span class="post-date">{{ formatDate(post.created_time) }}</span>
             <RouterLink class="post-title" :to="{name: 'Article',params: { slug: post.slug }}">

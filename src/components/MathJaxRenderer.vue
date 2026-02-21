@@ -97,11 +97,22 @@ watch(
     color: #a6a6a6;
 }
 
-.mathjax-content :deep(code) {
-    background-color: #f7fafb;
-    padding: 0.5em 1em;
+.mathjax-content :deep(pre) {
+    & div  {
+        padding-left: 1.5em;
+    }
+
+    width: 100%;
+    overflow-x: auto;
     border-radius: 16px;
+    background-color: #f7fafb;
+}
+.mathjax-content :deep(code) {font-family: 'Ubuntu Sans Mono', monospace;}
+.mathjax-content :deep(code.hljs) {
+    background-color: #f7fafb;
+    padding: 1em 0em;
     font-family: 'Ubuntu Sans Mono', monospace;
+    counter-reset: n;
 }
 
 .mathjax-content :deep(table) {
@@ -151,5 +162,36 @@ watch(
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.mathjax-content :deep(.code-wrapper) { 
+    position: relative;
+    display: grid;
+}
+
+/* 按钮：平时隐藏，鼠标移上去显示 */
+.mathjax-content :deep(.copy-btn) {
+  position: absolute; top: 20px; right: 20px; opacity: 0;
+  cursor: pointer; z-index: 10;
+  border: none; background: none; padding: 0;
+}
+.mathjax-content :deep(.code-wrapper:hover .copy-btn) { opacity: 1; }
+
+.mathjax-content :deep(.line) { 
+    padding-left: 2em; 
+    padding-right: 0;
+    position: relative; 
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.mathjax-content :deep(.line::before) {
+  counter-increment: n;       /* 每次遇到 .line，n 就加 1 */
+  content: counter(n);        /* 把数字显示出来 */
+  position: absolute; 
+  left: 0; 
+  width: 15px;
+  text-align: justify; 
+  color: #666;
 }
 </style>

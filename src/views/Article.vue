@@ -5,8 +5,9 @@
             <div class="back-home">
                 <RouterLink to="/">← Back to Home</RouterLink>
             </div>
-            <div class="toc-head">On This Page</div>
-            <div class="toc-wrapper" v-html="articleToc" @click="handleTocClick"></div>
+            <div v-if="!isMobile" class="toc-head">On This Page</div>
+            <div v-if="!isMobile" class="toc-wrapper" v-html="articleToc" @click="handleTocClick"></div>
+            <MobileToc v-if="isMobile" :article-toc="articleToc" :show-mobile-toc="showMobileToc" @toc-click="handleTocClick" />
         </aside>
         <article class="article">
             <div class="article-area">
@@ -27,12 +28,13 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted, computed } from 'vue'
 import { renderMarkdown, getLatestToc } from '../util/markdown.js' // 你自己实现的 markdown 渲染函数
 import { useRoute } from 'vue-router'
 import MathJaxRenderer from '../components/MathJaxRenderer.vue'
 import ToUp from '../components/ToUp.vue'
-import { title, webtitle } from '../centre.js'
+import { title, webtitle, successIcon } from '../centre.js'
+import MobileToc from '../components/MobileToc.vue'
 
 const route = useRoute()
 const post = ref(null)
@@ -40,6 +42,7 @@ const renderedHtml = ref('')
 const articleToc = ref('')
 const createdTime = ref('')
 const updatedTime = ref('')
+
 
 // 动态提取数据的函数
 const updateData = () => {
@@ -55,8 +58,6 @@ const updateData = () => {
     // console.log("渲染后的HTML:", renderedHtml.value)
 }
 
-// 1. 初始化尝试
-onMounted(updateData)
 
 // 2. 监听路由变化（防止由于组件复用导致数据不更新）
 watch(() => route.meta.postData, updateData, { immediate: true })
@@ -70,6 +71,9 @@ function formatDate(dateStr) {
 }
 
 const handleTocClick = (event) => {
+    if (e.target.tagName === 'A') {
+        showMobileToc.value = false
+    }
     const link = event.target.closest('a');
     if (!link) return;
     event.preventDefault();
@@ -93,8 +97,47 @@ const handleTocClick = (event) => {
     }
 };
 
+const handleCopy = async (e) => {
+    const target = (e.target).closest('.copy-btn');
+    if (!target) return;
+
+    const code = decodeURIComponent(target.getAttribute('data-code') || '');
+
+    try {
+        await navigator.clipboard.writeText(code);
+
+        // 视觉反馈：切换为“打勾”图标
+        const originalSVG = target.innerHTML;
+        target.innerHTML = successIcon; // 换成成功图标
+        target.classList.add('copy-success');
+
+        setTimeout(() => {
+            target.innerHTML = originalSVG; // 换回原始图标
+            target.classList.remove('copy-success');
+        }, 2000);
+    } catch (err) {
+        console.error('复制失败');
+    }
+};
+
+const showMobileToc = ref(false);
+const isMobile = ref(window.innerWidth <= 900);
+
+const updateIsMobile = () => {
+    isMobile.value = window.innerWidth <= 900;
+};
+
+onMounted(() => {
+    updateData();
+    updateIsMobile();
+    window.addEventListener('resize', updateIsMobile);
+    document.addEventListener('click', handleCopy);
+})
+
 onUnmounted(() => {
     document.title = webtitle // 恢复默认标题
+    window.removeEventListener('resize', updateIsMobile);
+    document.removeEventListener('click', handleCopy);
 })
 </script>
 
@@ -105,7 +148,7 @@ onUnmounted(() => {
     min-height: calc(100vh - 2rem);
 
     & .left-pane {
-        width: 310px;
+        min-width: 310px;
         display: flex;
         flex-direction: column;
         position: sticky;
@@ -235,5 +278,27 @@ onUnmounted(() => {
 .toc-wrapper :deep(a:hover::before) {
     opacity: 1;
     left: -1.2em;
+}
+
+@media (max-width: 900px) {
+    .article-container {
+        flex-direction: column;
+
+        & .left-pane {
+            width: 100%;
+            position: static;
+            margin-bottom: 2em;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        & .article {
+            width: 100%;
+            max-width: none;
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
 }
 </style>
