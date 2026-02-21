@@ -1,0 +1,1 @@
+import"./runtime-core.esm-bundler-D8MYa_g7.js";import{o as e}from"./vue-router-CHb8L0aE.js";var t={__name:`About`,setup(t){return e().push(`/404`),(e,t)=>null}};export{t as default};
