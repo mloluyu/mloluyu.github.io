@@ -32,7 +32,16 @@ const routes = [
 
 const router = createRouter({
     history: createWebHashHistory(),
-    routes
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            // 如果是点击浏览器的“前进/后退”，则回到之前保存的位置
+            return savedPosition;
+        } else {
+            // 如果是普通跳转，直接滚到顶部
+            return { top: 0, behavior: 'smooth' }; // behavior: 'smooth' 是平滑滚动
+        }
+    }
 })
 
 
