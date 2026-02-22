@@ -1,1 +1,0 @@
-import{b as e,l as t,o as n}from"./runtime-core.esm-bundler-C7oCqCds.js";import{s as r,t as i}from"./_plugin-vue_export-helper-DVde5YFK.js";var a={class:`about-page-container`},o=i({__name:`About`,setup(i){return r().push(`/404`),(r,i)=>(e(),t(`div`,a,[...i[0]||=[n(`h2`,null,`施工中...`,-1),n(`p`,null,`前面的世界以后再来探索吧`,-1)]]))}},[[`__scopeId`,`data-v-2b4d6b74`]]);export{o as default};
