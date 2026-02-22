@@ -3,11 +3,11 @@ import { createRouter, createWebHashHistory} from 'vue-router'
 import './style.css'
 import App from './App.vue'
 import apiClient from './api'
-//import Home from './views/Home.vue'
+import Home from './views/Home.vue'
 //import Article from './views/Article.vue'
 
 const routes = [
-    { path: '/', name: 'Home', component: () => import('./views/Home.vue') },
+    { path: '/', name: 'Home', component: Home },
     { 
         path: '/article/:slug', 
         name: 'Article', 
@@ -24,6 +24,7 @@ const routes = [
             }
         }
     },
+    { path: '/categories/:slug', name: 'Category', component: Home },
     { path: '/about', name: 'About', component: () => import('./views/About.vue') },
     { path: '/friends', name: 'Friends', component: () => import('./views/Friends.vue') },
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('./views/NotFound.vue') },

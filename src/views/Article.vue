@@ -157,7 +157,7 @@ onUnmounted(() => {
         position: sticky;
         top: 2rem;              /* 距离窗口顶部的距离，可以根据导航栏高度调整 */
         max-height: calc(100vh - 4rem); /* 限制最大高度，防止目录超长无法滚动 */
-        overflow-y: auto;       /* 如果目录内容过多，允许目录内部滚动 */
+        /* overflow-y: auto;       如果目录内容过多，允许目录内部滚动 */
 
         & .back-home {
             padding: 2em 0;
@@ -250,6 +250,7 @@ onUnmounted(() => {
 .toc-wrapper {
     border-left: #A6A6A6 2px solid;
     font-family: 'LXGW WenKai Screen', monospace;
+    overflow-y: auto;
 }
 .toc-wrapper :deep(ul), 
 .toc-wrapper :deep(ol) {

@@ -1,15 +1,49 @@
 <script setup>
-    import { ref } from "vue";
+    import { ref, onMounted, computed } from "vue";
+    import { useRoute } from "vue-router";
     import Calendar from "../components/Calendar.vue";
     import ArticleList from "../components/ArticleList.vue";
-    import Footer from "../components/Footer.vue";
+    import CategoryList from "../components/CategoryList.vue";
     import apiClient from "../api";
 
-    // apiClient.get('/posts/').then(res => {
-    //     console.log('Posts:', res.data);
-    // }).catch(error => {
-    //     console.error('Error fetching posts:', error);
-    // });
+    const posts = ref([]);
+    const categories = ref([]);
+
+    const route = useRoute();
+
+    const displayPosts = computed(() => {
+    // 1. 获取路径中的 slug 字段 (对应路由配置里的 :slug)
+        const categorySlug = route.params.slug;
+
+        // 2. 核心判断逻辑
+        if (!categorySlug) {
+            // 如果没有 slug（比如访问的是 '/'），展示全部
+            return posts.value;
+        }
+
+        // 3. 筛选逻辑
+        // 注意：这里要匹配的是后端返回的 category 的 slug 字段
+        return posts.value.filter(post => {
+            return post.category.slug === categorySlug;
+        });
+    });
+
+    onMounted(async () => {
+        try {
+            const [resp, resc] = await Promise.all([
+                apiClient.get('/posts/'),
+                apiClient.get('/categories/')
+            ]);
+            
+            // 赋值时增加兜底
+            posts.value = resp.data || [];
+            categories.value = resc.data || [];
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+    });
+
+    
 </script>
 
 <template>
@@ -19,9 +53,12 @@
             <div class="calendar-container">
                 <Calendar />
             </div>
+            <div class="categories">
+                <CategoryList :categories="categories" />
+            </div>
         </aside>
         <main class="main-content">
-            <ArticleList />
+            <ArticleList :posts="displayPosts" />
         </main>
     </div>
 </template>
@@ -50,6 +87,7 @@
         width: 304px;
         display: flex;
         flex-direction: column;
+        max-height: calc(100vh - 4em);
         /* height: 611px; */
     }
 

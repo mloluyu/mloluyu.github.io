@@ -1,6 +1,6 @@
 <template>
     <div class="article-list-component">
-        <li v-for="post in posts" :key="post.id" class="article-item">
+        <li v-for="post in props.posts" :key="post.id" class="article-item">
             <span class="post-date">{{ formatDate(post.created_time) }}</span>
             <RouterLink class="post-title" :to="{name: 'Article',params: { slug: post.slug }}">
                 {{ post.title }}
@@ -14,22 +14,23 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, defineProps } from "vue";
 import { RouterLink } from "vue-router";
-import apiClient from "../api";
 
-const posts = ref([]);
+const props = defineProps({
+    posts: {
+        type: Array,
+        default: () => [] // 默认值设为空数组，防止父组件异步数据没来时报错
+    }
+});
+
+console.log("Posts in ArticleList:", props.posts);
 const months = [
     "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
 ];
 
-apiClient.get('/posts/').then(res => {
-    posts.value = res.data;
-}).catch(error => {
-    console.error('Error fetching posts:', error);
-});
-
 function formatDate(dateStr) {
+    if (!dateStr) return "";
     const date = new Date(dateStr);
     const month = months[date.getMonth()];
     const day = date.getDate();
