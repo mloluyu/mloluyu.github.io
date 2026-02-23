@@ -11,7 +11,7 @@
                     <div class="avatar">
                         <img :src="person.avatar" style="width: 100%; height: 100%; object-fit:contain; border-radius: 14px;">
                     </div>
-                    <div class="descripe">
+                    <div class="descripe" :class="['top']">
                         <h2>{{ person.name }}</h2>
                         <p>{{ person.description }}</p>
                         <p>{{ person.location }}</p>
@@ -34,7 +34,7 @@
                 <p v-if="showList">Click the avatar to visit sites belong to my friends. </p>
                 <p v-else>Watting zzz...</p>
             </div>
-            <Transition :name="fade-up">
+            <Transition name="fade-up" >
                 <div v-if="showList" class="friend-link-list">
                     <div v-for="friendLink in friendLinks" :key="friendLink.id" class="friend-link-item">
                         <div class="avatar">
@@ -67,22 +67,24 @@ const mainPeople = ref([
     },
     {
         name: 'Garvey Zhu',
-        description: 'HKU Master | Yonsei BBA',
-        location: 'Hong Kong SAR, China',
+        description: '在投身学术深渊前，先帮未来的老板把盈利曲线拉成 45 度向上。',
+        location: 'Hong Kong SAR',
         occupation: 'Master of Applied Economics, HKU',
-        avatar: 'https://test.fukit.cn/autoupload/fr/v_7EA5-gGVU4PmgdHJ0Q-fxFopudiA594VTK21R4cCGyl5f0KlZfm6UsKj-HyTuv/20260223/Gd3k/1024X1024/avatar_zhu.png/webp'
+        avatar: 'https://varia.mloluyu.uno/mloluyu/images/raw/branch/main/avatar_zhu.png'
     }
 ]);
 
 const friendLinks = ref([]);
-apiClient.get('/friend-links/').then(response => {
-    friendLinks.value = response.data;
-    if (friendLinks.value.length > 0) {
-        showList.value = true;
-    }
-}).catch(error => {
-    console.error('Error fetching friend links:', error);
-});
+onMounted(() => {
+    apiClient.get('/friend-links/').then(response => {
+        friendLinks.value = response.data;
+        if (friendLinks.value.length > 0) {
+            showList.value = true;
+        }
+    }).catch(error => {
+        console.error('Error fetching friend links:', error);
+    });
+})
 
 </script>
 
@@ -108,7 +110,7 @@ hr {
 .descripe {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
     text-align: left;
     width: 70%;
 
@@ -157,8 +159,6 @@ hr {
                 width: 100%;
                 height: 150px;
                 border-radius: 16px;
-                align-items: center;
-
             }
         }
     }
@@ -217,13 +217,28 @@ hr {
     }
 }
 
-.fade-up-leave-active {
-  transition: opacity 0.5s, transform 0.5s;
+.fade-up-enter-active {
+  transition: all 0.6s ease-out;
 }
-.fade-up-leave-from {
+
+/* 离开过程中的动画状态 (可选) */
+.fade-up-leave-active {
+  transition: all 0.5s ease-in;
+}
+
+/* 进入前的初始状态：透明且向下偏移 */
+.fade-up-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* 进入后的结束状态 (默认通常不需要写，但为了清晰起见) */
+.fade-up-enter-to {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* 离开后的目标状态 */
 .fade-up-leave-to {
   opacity: 0;
   transform: translateY(-30px);

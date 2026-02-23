@@ -15,7 +15,7 @@
                 </ul>
             </div>
             <div class="connect">
-                <h4>CONNECT</h4>
+                <h4>CONTACT</h4>
                 <ul>
                     <li><a href="https://github.com/mloluyu" target="_blank" rel="noopener">Github</a></li>
                 </ul>
