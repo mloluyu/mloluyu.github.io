@@ -166,7 +166,7 @@ hr {
     & .friend-links {
         display: flex;
         flex-direction: row;
-        gap: 2em;
+        gap: 1em;
         margin-top: 0em;
 
         & .friend-links-des {
