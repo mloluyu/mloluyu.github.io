@@ -110,6 +110,7 @@ hr {
     flex-direction: column;
     gap: 2px;
     text-align: left;
+    width: 70%;
 
     & h2 {
         font-size: 24px;
