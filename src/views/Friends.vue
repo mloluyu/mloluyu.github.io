@@ -70,7 +70,7 @@ const mainPeople = ref([
         description: 'HKU Master | Yonsei BBA',
         location: 'Hong Kong SAR, China',
         occupation: 'Master of Applied Economics, HKU',
-        avatar: '../src/assets/avatar_zhu.png'
+        avatar: 'https://test.fukit.cn/autoupload/fr/v_7EA5-gGVU4PmgdHJ0Q-fxFopudiA594VTK21R4cCGyl5f0KlZfm6UsKj-HyTuv/20260223/Gd3k/1024X1024/avatar_zhu.png/webp'
     }
 ]);
 
