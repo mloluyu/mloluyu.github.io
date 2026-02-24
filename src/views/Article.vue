@@ -227,7 +227,7 @@ onUnmounted(() => {
         margin: 42px 50px;
 
         & .article-title {
-            border-bottom: #cdcdcd 1px solid;
+            border-bottom: #cdcdcd 1px dashed;
 
             & .title {
                 margin: 0;

@@ -72,7 +72,7 @@ h4 {
     background-image: url('../assets/shanghai_doll.webp');
     background-size: 320px;
     background-repeat: no-repeat;
-    background-position: 106% center;
+    background-position: calc(100% + 50px) center;
     flex-direction: column;
 
     & .footer-container {

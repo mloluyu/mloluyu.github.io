@@ -98,8 +98,10 @@ hr {
 
 .avatar {
     display: block;
-    width: 100px;
-    height: 100px;
+    min-width: 100px;
+    min-height: 100px;
+    max-width: 100px;
+    max-height: 100px;
     margin: 1em;
     background-color: transparent;
     border: #A6A6A6 2px solid;
@@ -112,7 +114,7 @@ hr {
     flex-direction: column;
     gap: 1px;
     text-align: left;
-    width: 70%;
+    max-width: 80%;
 
     & h2 {
         font-size: 24px;
@@ -155,9 +157,10 @@ hr {
 
             & .cooperator-item {
                 display: flex;
+                gap: 5px;
                 flex-direction: row;
                 width: 100%;
-                height: 150px;
+                min-height: 150px;
                 border-radius: 16px;
             }
         }
@@ -187,9 +190,10 @@ hr {
             & .friend-link-item {
                 display: flex;
                 flex-direction: row;
+                gap: 5px;
                 width: 100%;
-                height: 150px;
-                border-bottom: #e3e3e3 2px solid;
+                min-height: 150px;
+                border-bottom: #e3e3e3 2px dashed;
             }
         }
     }
@@ -209,11 +213,19 @@ hr {
 
         & .friend-links {
             flex-direction: column;
+            & .friend-links-des {
+                width: 100%;
+            }
 
             & .friend-link-list {
                 width: 100%;
             }
         }
+    }
+
+    .avatar {
+        margin-left: 0;
+        margin-right: 0;
     }
 }
 
