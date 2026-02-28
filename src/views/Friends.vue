@@ -60,17 +60,24 @@ const showList = ref(false);
 const mainPeople = ref([
     {
         name: 'mloluyu',
-        description: 'The administrator of this site',
+        description: 'The Administrator of this site',
         location: 'Bengbu, China',
         occupation: 'AVCEIT, Student',
         avatar: 'https://avatars.githubusercontent.com/u/45489523?v=4'
     },
     {
         name: 'Garvey Zhu',
-        description: '在投身学术深渊前，先帮未来的老板把盈利曲线拉成 45 度向上。',
+        description: '本站特约供稿特异人士',
         location: 'Hong Kong SAR',
         occupation: 'Master of Applied Economics, HKU',
         avatar: 'https://varia.mloluyu.uno/mloluyu/images/raw/branch/main/avatar_zhu.png'
+    },
+    {
+        name: '咩咩',
+        description: '为本站提供了很可爱的插画(*≧ω≦)',
+        location: '',
+        occupation: '',
+        avatar: 'https://varia.mloluyu.uno/mloluyu/images/raw/branch/main/mie.jpg'
     }
 ]);
 

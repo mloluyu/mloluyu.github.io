@@ -1,10 +1,11 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHashHistory} from 'vue-router'
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 import './style.css'
 import App from './App.vue'
 import apiClient from './api'
 import Home from './views/Home.vue'
-//import Article from './views/Article.vue'
 
 const routes = [
     { path: '/', name: 'Home', component: Home },
@@ -46,4 +47,8 @@ const router = createRouter({
 
 
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).use(Toast, { 
+    position: "top-right", 
+    timeout: 3000,
+    pauseOnHover: false,
+}).mount('#app')

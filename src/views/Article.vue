@@ -7,7 +7,8 @@
             </div>
             <div v-if="!isMobile" class="toc-head">On This Page</div>
             <div v-if="!isMobile" class="toc-wrapper" v-html="articleToc" @click="handleTocClick"></div>
-            <MobileToc v-if="isMobile" :article-toc="articleToc" :show-mobile-toc="showMobileToc" @toc-click="handleTocClick" >
+            <MobileToc v-if="isMobile" :article-toc="articleToc" :show-mobile-toc="showMobileToc"
+                @toc-click="handleTocClick">
                 <div class="toc-wrapper" v-html="articleToc" @click="handleTocClick"></div>
             </MobileToc>
         </aside>
@@ -26,6 +27,13 @@
             </div>
         </article>
     </div>
+    <div class="comments-area">
+        <div class="left-pane"></div>
+        <div class="right-pane">
+            <PostComments v-if="isShowPostCommentArea" :post-id="post.id" class="comments-input" />
+            <GetComments :post-id="post.id" @hide-post-area="hidePostArea" @appear-post-area="appearPostArea" class="comments-show" />
+        </div>
+    </div>
     <ToUp />
 </template>
 
@@ -37,6 +45,8 @@ import MathJaxRenderer from '../components/MathJaxRenderer.vue'
 import ToUp from '../components/ToUp.vue'
 import { title, webtitle, successIcon } from '../centre.js'
 import MobileToc from '../components/MobileToc.vue'
+import PostComments from '../components/comments/PostComments.vue'
+import GetComments from '../components/comments/GetComments.vue'
 
 const route = useRoute()
 const post = ref(null)
@@ -44,7 +54,6 @@ const renderedHtml = ref('')
 const articleToc = ref('')
 const createdTime = ref('')
 const updatedTime = ref('')
-
 
 // 动态提取数据的函数
 const updateData = () => {
@@ -142,6 +151,14 @@ onUnmounted(() => {
     window.removeEventListener('resize', updateIsMobile);
     document.removeEventListener('click', handleCopy);
 })
+
+const isShowPostCommentArea = ref(true)
+const hidePostArea = () => {
+    isShowPostCommentArea.value = false;
+}
+const appearPostArea = () => {
+    isShowPostCommentArea.value = true;
+}
 </script>
 
 <style scoped>
@@ -149,63 +166,70 @@ onUnmounted(() => {
     display: flex;
     flex-direction: row;
     min-height: calc(100vh - 2rem);
+}
 
-    & .left-pane {
-        min-width: 310px;
-        display: flex;
-        flex-direction: column;
-        position: sticky;
-        top: 2rem;              /* 距离窗口顶部的距离，可以根据导航栏高度调整 */
-        max-height: calc(100vh - 4rem); /* 限制最大高度，防止目录超长无法滚动 */
-        /* overflow-y: auto;       如果目录内容过多，允许目录内部滚动 */
+.left-pane {
+    min-width: 310px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 2rem;
+    /* 距离窗口顶部的距离，可以根据导航栏高度调整 */
+    max-height: calc(100vh - 4rem);
+    /* 限制最大高度，防止目录超长无法滚动 */
+    /* overflow-y: auto;       如果目录内容过多，允许目录内部滚动 */
 
-        & .back-home {
-            padding: 2em 0;
-            & a {
-                color: #555;
-                font-size: 24px;
-                font-family: 'LXGW WenKai Screen', monospace;
-                text-decoration: none;
-            }
+    & .back-home {
+        padding: 2em 0;
+
+        & a {
+            color: #555;
+            font-size: 24px;
+            font-family: 'LXGW WenKai Screen', monospace;
+            text-decoration: none;
         }
+    }
 
-        & .toc-head {
-            font-size: 18px;
-            font-weight: bold;
-            font-family: 'Ubuntu Sans Mono', monospace;
-            padding: 1em 0;
-            color: #d0d0d0;
-        }
+    & .toc-head {
+        font-size: 18px;
+        font-weight: bold;
+        font-family: 'Ubuntu Sans Mono', monospace;
+        padding: 1em 0;
+        color: #d0d0d0;
     }
 }
 
 /* 1. 针对文章正文中所有带 ID 的标题 */
-.article-contents :deep(h1[id]), 
-.article-contents :deep(h2[id]), 
-.article-contents :deep(h3[id]), 
+.article-contents :deep(h1[id]),
+.article-contents :deep(h2[id]),
+.article-contents :deep(h3[id]),
 .article-contents :deep(h4[id]) {
     position: relative;
     cursor: pointer;
 }
 
 /* 2. 使用伪元素生成 # 符号 */
-.article-contents :deep(h1[id]::after), 
-.article-contents :deep(h2[id]::after), 
-.article-contents :deep(h3[id]::after), 
+.article-contents :deep(h1[id]::after),
+.article-contents :deep(h2[id]::after),
+.article-contents :deep(h3[id]::after),
 .article-contents :deep(h4[id]::after) {
     content: "#";
     margin-left: 10px;
-    color: #cdcdcd;           /* 符号颜色 */
-    font-size: 1em;         /* 稍微小一点 */
-    opacity: 0;               /* 默认隐藏 */
-    transition: opacity 0.2s; /* 平滑过渡 */
+    color: #cdcdcd;
+    /* 符号颜色 */
+    font-size: 1em;
+    /* 稍微小一点 */
+    opacity: 0;
+    /* 默认隐藏 */
+    transition: opacity 0.2s;
+    /* 平滑过渡 */
     font-weight: normal;
 }
 
 /* 3. 悬停时显示 */
-.article-contents :deep(h1[id]:hover::after), 
-.article-contents :deep(h2[id]:hover::after), 
-.article-contents :deep(h3[id]:hover::after), 
+.article-contents :deep(h1[id]:hover::after),
+.article-contents :deep(h2[id]:hover::after),
+.article-contents :deep(h3[id]:hover::after),
 .article-contents :deep(h4[id]:hover::after) {
     opacity: 1;
 }
@@ -237,7 +261,7 @@ onUnmounted(() => {
                 color: #A6A6A6;
                 font-family: "Ubuntu Sans Mono";
             }
-        } 
+        }
     }
 
     & h1 {
@@ -252,7 +276,8 @@ onUnmounted(() => {
     font-family: 'LXGW WenKai Screen', monospace;
     overflow-y: auto;
 }
-.toc-wrapper :deep(ul), 
+
+.toc-wrapper :deep(ul),
 .toc-wrapper :deep(ol) {
     list-style: none;
     padding-left: 2em;
@@ -268,22 +293,47 @@ onUnmounted(() => {
     padding: 8px 0;
     font-size: 16px;
 }
+
 .toc-wrapper :deep(a::before) {
     content: "->";
-    position: absolute;    /* 开启绝对定位 */
-    left: -1.5em;               /* 定位到 padding 区域的起始位置 */
-    top: 50%;              /* 垂直居中 */
-    transform: translateY(-50%); 
-    
+    position: absolute;
+    /* 开启绝对定位 */
+    left: -1.5em;
+    /* 定位到 padding 区域的起始位置 */
+    top: 50%;
+    /* 垂直居中 */
+    transform: translateY(-50%);
+
     color: #555;
     font-size: 1em;
     opacity: 0;
     transition: all 0.2s;
 }
+
 /* 鼠标悬停效果 */
 .toc-wrapper :deep(a:hover::before) {
     opacity: 1;
     left: -1.2em;
+}
+
+.comments-area {
+    display: flex;
+
+    & .right-pane {
+        width: 100%;
+        max-width: 870px;
+        margin-left: 42px;
+        flex-direction: column;
+    }
+
+    & .comments-input {
+        border-bottom: #dce4e9 2px solid;
+        margin-bottom: 1em;
+    }
+
+    & .comments-show {
+        margin-bottom: 4em;
+    }
 }
 
 @media (max-width: 900px) {
@@ -308,6 +358,19 @@ onUnmounted(() => {
             & .article-area {
                 margin: 20px;
             }
+        }
+    }
+
+    .comments-area {
+        flex-direction: column;
+
+        & .left-pane {
+           display: none;
+        }
+        
+        & .right-pane {
+            margin-left: 0;
+            margin-right: 0;
         }
     }
 }
