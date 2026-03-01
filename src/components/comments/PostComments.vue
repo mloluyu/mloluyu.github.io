@@ -78,6 +78,11 @@ const props = defineProps({
         type: Number,
         required: false,
         default: null
+    },
+    replyToId:{
+        type: Number,
+        required: false,
+        default: null
     }
 });
 
@@ -98,6 +103,7 @@ const postComment = () => {
         user_email: userEmail.value,
         content: content.value,
         parent: props.parentId,
+        reply_to: props.replyToId,
         'cf-turnstile-response': turnstileToken.value
     }).then(res => {
         username.value = ''

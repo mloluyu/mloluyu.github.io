@@ -20,7 +20,7 @@
                     </p>
                     <MathJaxRenderer :content="renderComment(comment.content)" />
                     <div v-if="activeCommentId === comment.id" class="reply-area">
-                        <PostComments :post-id="props.postId" :parent-id="comment.id" />
+                        <PostComments :post-id="props.postId" :parent-id="comment.id" :reply-to-id="reply.id"/>
                     </div>
 
                     <div v-for="reply in comment.replies" :key="reply.id" class="comment">
@@ -39,7 +39,7 @@
                             </p>
                             <MathJaxRenderer :content="renderComment(reply.content)" />
                             <div v-if="activeCommentId === reply.id" class="reply-area">
-                                <PostComments :post-id="props.postId" :prepare="replyContent" :parent-id="comment.id"/>
+                                <PostComments :post-id="props.postId" :prepare="replyContent" :parent-id="comment.id" :reply-to-id="reply.id"/>
                             </div>
                         </div>
                     </div>
