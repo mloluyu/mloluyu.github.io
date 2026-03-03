@@ -3,7 +3,7 @@ html {
 }
 
 :root {
-  font-family: "Inria Sans";
+  font-family: 'Inria Sans', sans-serif;  
   line-height: 1.5;
   font-weight: 400;
   align-items: center;

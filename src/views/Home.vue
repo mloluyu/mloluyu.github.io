@@ -49,7 +49,7 @@
 <template>
     <div class="app-container">
         <aside class="left-pane">
-            <div class="title">Grimorie of<br>Magartorid</div>
+            <div class="title">Grimoire of<br>Magartorid</div>
             <div class="calendar-container">
                 <Calendar />
             </div>
