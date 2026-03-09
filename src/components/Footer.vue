@@ -18,6 +18,7 @@
                 <h4>CONNECT</h4>
                 <ul>
                     <li><a href="https://github.com/mloluyu" target="_blank" rel="noopener">Github</a></li>
+                    <li><a href="https://api.mloluyu.uno/api/rss/" target="_blank" rel="noopener">RSS</a></li>
                 </ul>
             </div>
         </div>
