@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="footer-extra">
-            <p class="copyright">©2026-NOW mloluyu. All Right Reserved</p>
+            <p class="copyright">©{{ new Date().getFullYear() }} mloluyu. All Right Reserved</p>
             <p class="powered">POWERED BY&nbsp;<a href="#">MAGICS</a>&nbsp;& 紅茶</p>
         </div>
     </div>
